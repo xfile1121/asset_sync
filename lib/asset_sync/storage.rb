@@ -145,6 +145,7 @@ module AssetSync
           # set content encoding for gzipped files this allows cloudfront to properly handle requests with Accept-Encoding
           # http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html
           file.merge!({
+            :key => f.gsub(".gz", ".cgz"),
             :content_encoding => 'gzip'
           })
         end
