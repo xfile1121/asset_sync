@@ -78,7 +78,7 @@ module AssetSync
       # fixes: https://github.com/rumblelabs/asset_sync/issues/16
       #        (work-around for https://github.com/fog/fog/issues/596)
       files = []
-      bucket.files.each { |f| files << f.key }
+      bucket.files.each { |f| files << f.key.gsub(".cgz", ".gz") }
       return files
     end
 
