@@ -78,7 +78,7 @@ module AssetSync
       # fixes: https://github.com/rumblelabs/asset_sync/issues/16
       #        (work-around for https://github.com/fog/fog/issues/596)
       files = []
-      bucket.files.each { |f| files << f.key.gsub(".cgz", ".gz") }
+      bucket.files.each { |f| files << f.key }
       return files
     end
 
@@ -93,7 +93,8 @@ module AssetSync
       log "Fetching files to flag for delete"
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      from_remote_files_to_delete = remote_files - local_files - ignored_files
+      local_files2 = local_files.map { |f| f.gsub(".gz", ".gsz") }
+      from_remote_files_to_delete = remote_files - local_files2 - ignored_files
 
       log "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
