@@ -160,7 +160,9 @@ module AssetSync
       # get a fresh list of remote files
       remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
+      local_files2 = local_files.map { |f| f.gsub(".gz", ".cgz") }
+      local_files_to_upload = local_files2 - ignored_files - remote_files + always_upload_files
+      local_files_to_upload = local_files_to_upload.map { |f| f.gsub(".cgz", ".gz") }
 
       # Upload new files
       local_files_to_upload.each do |f|
